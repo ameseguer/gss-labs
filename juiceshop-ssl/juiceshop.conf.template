@@ -1,0 +1,21 @@
+# re-route everything to juiceshop docker container
+server {
+  listen 80;
+  server_name ${NGINX_HOST};
+  location / {
+    proxy_pass http://juiceshop:3000;
+  }
+}
+
+server {
+  listen              443 ssl;
+  server_name         ${NGINX_HOST};
+  ssl_certificate     /etc/nginx/cert/fullchain.pem;
+  ssl_certificate_key /etc/nginx/cert/privkey.pem;
+  ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers         HIGH:!aNULL:!MD5;
+
+  location / {
+    proxy_pass http://juiceshop:3000;
+  }
+}

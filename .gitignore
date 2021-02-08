@@ -1,3 +1,5 @@
+juiceshop-ssl/letsencrypt/*
+juiceshop-ssl/nginx/*
 # Build and Release Folders
 bin-debug/
 bin-release/
