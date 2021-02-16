@@ -1,0 +1,34 @@
+#!/bin/bash
+
+export CONCURRENT=2
+export TESTS=100
+export UAS=("PartnerJailBot" )
+export PROTO=https
+export DOMAIN=gss-proshop.com
+export PATHS="/"
+export EDGE_HOST=gss-proshop.com.edgekey-staging.net
+export EDGE_PORT=443
+gs_ldap_file=~/.gs_ldap
+
+if [  $0 == "./config" ] ; then
+   echo "" >>$gs_ldap_file
+   rm $gs_ldap_file
+fi
+
+if [ ! -f  "$gs_ldap_file" ] ; then
+  echo "Setting your ldap id. You can always reset it by executing ./config"
+  GS_LDAP=""
+else
+  GS_LDAP=$(cat $gs_ldap_file)
+fi
+
+while [ -z $GS_LDAP ] ; do
+  echo -n "Please input your ldap id: "
+  read GS_LDAP
+done
+
+echo "$GS_LDAP" > $gs_ldap_file
+export GS_LDAP
+
+
+
