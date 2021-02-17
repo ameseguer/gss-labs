@@ -4,7 +4,7 @@
 
 #transparent
 ua="BaiduSpider"
-docker run --rm httpd ab -v 0 -q -S -d -X "$EDGE_HOST:$EDGE_PORT" -c$CONCURRENT -n$TESTS -H "User-Agent: $ua" "$PROTO://$GS_LDAP.$DOMAIN$PATH"
+docker exec  httpd ab -v 0 -q -S -d -X "$EDGE_HOST:$EDGE_PORT" -c$CONCURRENT -n$TESTS -H "User-Agent: $ua" "$PROTO://$GS_LDAP.$DOMAIN$PATH"
 #active
 ua="evilBot"
-docker run --rm httpd ab -v 0 -q -S -d -X "$EDGE_HOST:$EDGE_PORT" -c$CONCURRENT -n$TESTS  -H "cookie:ak_bmsc=123" -H "User-Agent: $ua" "$PROTO://$GS_LDAP.$DOMAIN$PATH"
+docker exec httpd ab -v 0 -q -S -d -X "$EDGE_HOST:$EDGE_PORT" -c$CONCURRENT -n$TESTS  -H "cookie:ak_bmsc=123" -H "User-Agent: $ua" "$PROTO://$GS_LDAP.$DOMAIN$PATH"

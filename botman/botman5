@@ -3,7 +3,8 @@
 . ./config 
 echo "Generating Bot traffic (please be patient)"
 for i in {1..100}; do
-/usr/bin/curl -s -S --connect-to "$GS_LDAP.$DOMAIN":"$EDGE_PORT":"$EDGE_HOST":"$EDGE_PORT" \
+ echo -en "\rTest $i"
+ docker exec  alpine curl -k -s -S --connect-to "$GS_LDAP.$DOMAIN":"$EDGE_PORT":"$EDGE_HOST":"$EDGE_PORT" \
 "https://$GS_LDAP.$DOMAIN/rest/user/login" \
 -H "authority: $GS_LDAP.$DOMAIN" \
 -H 'pragma: no-cache'   -H 'cache-control: no-cache' \

@@ -30,5 +30,18 @@ done
 echo "$GS_LDAP" > $gs_ldap_file
 export GS_LDAP
 
-
-
+DIMAGES=("alpine" "httpd" )
+for dimage in "${DIMAGES[@]}"; do
+if [ ! "$(docker ps -q -f name=$dimage)" ]; then
+    if [ "$(docker ps -aq -f status=exited -f name=$dimage)" ]; then
+        # cleanup
+        docker rm $dimage
+    fi
+    # run your container
+    docker run -d -it --name $dimage $dimage /bin/sh
+    if [ "$dimage" == "alpine" ] ;then 
+      docker exec -ti  alpine apk update
+      docker exec -ti  alpine apk add curl
+    fi
+fi
+done

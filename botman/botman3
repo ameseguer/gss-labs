@@ -4,7 +4,7 @@
 UAS=("PartnerJailBot" )
 
 for ua in "${UAS[@]}"; do
-  docker run --rm httpd ab  -v 0 -q -S -d -X "$EDGE_HOST:$EDGE_PORT" -c$CONCURRENT -n$TESTS  -H "cookie:partNumber=DWJhAXa22XkL"  -H "User-Agent: $ua" "$PROTO://$GS_LDAP.$DOMAIN$PATHS"
-  docker run --rm httpd ab -v 0 -q -S -d -X "$EDGE_HOST:$EDGE_PORT" -c$CONCURRENT -n$TESTS  -H "cookie:partNumber=wrongValue"  -H "User-Agent: $ua" "$PROTO://$GS_LDAP.$DOMAIN$PATHS"
+  docker exec httpd ab  -v 0 -q -S -d -X "$EDGE_HOST:$EDGE_PORT" -c$CONCURRENT -n$TESTS  -H "cookie:partNumber=DWJhAXa22XkL"  -H "User-Agent: $ua" "$PROTO://$GS_LDAP.$DOMAIN$PATHS"
+  docker exec  httpd ab -v 0 -q -S -d -X "$EDGE_HOST:$EDGE_PORT" -c$CONCURRENT -n$TESTS  -H "cookie:partNumber=wrongValue"  -H "User-Agent: $ua" "$PROTO://$GS_LDAP.$DOMAIN$PATHS"
 done
 

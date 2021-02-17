@@ -11,21 +11,22 @@ EDGE_HOST=gssstore.com.edgekey-staging.net
 EDGE_PORT=80
 
 for ua in "${UAS[@]}"; do
-  /usr/bin/ab -v 0 -q -S -d -X "$EDGE_HOST:$EDGE_PORT" -c$CONCURRENT -n$TESTS  -H "cookie:partNumber=yZCV7Zvty4dW"  -H "User-Agent: $ua" "$PROTO://$GS_LDAP$DOMAIN$PATHS"
+ docker exec httpd ab  -v 0 -q -S -d -X "$EDGE_HOST:$EDGE_PORT" -c$CONCURRENT -n$TESTS  -H "cookie:partNumber=yZCV7Zvty4dW"  -H "User-Agent: $ua" "$PROTO://$GS_LDAP$DOMAIN$PATHS"
 done
 
 
 #transparent
 ua=""
-/usr/bin/ab -v 0 -q -S -d -i -X "$EDGE_HOST:$EDGE_PORT" -c$CONCURRENT -n$TESTS -H "User-Agent: $ua"  "$PROTO://$GS_LDAP$DOMAIN$PATHS"
+docker exec httpd ab -v 0 -q -S -d -i -X "$EDGE_HOST:$EDGE_PORT" -c$CONCURRENT -n$TESTS -H "User-Agent: $ua"  "$PROTO://$GS_LDAP$DOMAIN$PATHS"
 #active
 ua="evilBot"
-/usr/bin/ab -v 0 -q -S -d -X "$EDGE_HOST:$EDGE_PORT" -c$CONCURRENT -n$TESTS  -H "cookie:ak_bmsc=123" -H "User-Agent: $ua" "$PROTO://$GS_LDAP$DOMAIN$PATHS"
+docker exec httpd ab -v 0 -q -S -d -X "$EDGE_HOST:$EDGE_PORT" -c$CONCURRENT -n$TESTS  -H "cookie:ak_bmsc=123" -H "User-Agent: $ua" "$PROTO://$GS_LDAP$DOMAIN$PATHS"
 
 echo "Generating traffic (please be patient)"
 
 for i in {1..100}; do
-/usr/bin/curl -s -S --connect-to "$GS_LDAP$DOMAIN":"$EDGE_PORT":"$EDGE_HOST":"$EDGE_PORT" \
+echo -en "\rTest $i"
+docker exec  alpine curl -s -S --connect-to "$GS_LDAP$DOMAIN":"$EDGE_PORT":"$EDGE_HOST":"$EDGE_PORT" \
 "http://$GS_LDAP$DOMAIN/index.php?route=account/login" \
 -H "authority: $GS_LDAP$DOMAIN" \
 -H 'pragma: no-cache'   -H 'cache-control: no-cache' \
