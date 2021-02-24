@@ -5,9 +5,9 @@ CONCURRENT=2
 TESTS=100
 UAS=("examBot" )
 PROTO=https
-DOMAIN=-exam.gssstore.com
+DOMAIN=-exam.gss-proshop.com
 PATHS="/"
-EDGE_HOST=gssstore.com.edgekey-staging.net
+EDGE_HOST=gss-proshop.com.edgekey-staging.net
 EDGE_PORT=80
 
 for ua in "${UAS[@]}"; do
