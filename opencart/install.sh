@@ -21,9 +21,7 @@ docker run -d --network opencart --name opencart\
   --restart always\
   ameseguer/opencart&&
 docker run  --network opencart --name nginx\
-  --restart always\
-  -p 80:80 -p 443:443\
-  -e NGINX_HOST=$HOSTNAME\
-  -v "$PWD/nginx/templates:/etc/nginx/templates"\
+  --restart always  -p 80:80 -p 443:443\
+  -v "$PWD/default.conf:/etc/nginx/conf.d/default.conf:ro"\
   -v "$PWD/nginx/cert:/etc/nginx/cert"\
-  nginx 
+  nginx
