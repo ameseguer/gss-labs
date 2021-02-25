@@ -8,7 +8,7 @@ PROTO=https
 DOMAIN=-exam.gss-proshop.com
 PATHS="/"
 EDGE_HOST=gss-proshop.com.edgekey-staging.net
-EDGE_PORT=80
+EDGE_PORT=443
 
 for ua in "${UAS[@]}"; do
  docker exec httpd ab  -v 0 -q -S -d -X "$EDGE_HOST:$EDGE_PORT" -c$CONCURRENT -n$TESTS  -H "cookie:partNumber=yZCV7Zvty4dW"  -H "User-Agent: $ua" "$PROTO://$GS_LDAP$DOMAIN$PATHS"
