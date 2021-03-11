@@ -1,0 +1,36 @@
+#!/bin/bash
+
+. ./config
+CONCURRENT=2
+TESTS=100
+UAS=("examBot" )
+PROTO=https
+DOMAIN=-exam.gss-proshop.com
+PATHS="/"
+EDGE_HOST=gss-proshop.com.edgekey-staging.net
+EDGE_PORT=443
+
+for i in {1..10}; do
+echo -en "\rTest $i"
+curl -s -S --connect-to "$GS_LDAP$DOMAIN":"$EDGE_PORT":"$EDGE_HOST":"$EDGE_PORT" \
+"$PROTO://$GS_LDAP$DOMAIN/index.php?route=account/login" \
+-H "authority: $GS_LDAP$DOMAIN" \
+-H 'pragma: no-cache'   -H 'cache-control: no-cache' \
+-H 'accept: application/json, text/plain, */*' \
+-H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.193 Safari/537.36' \
+-H 'content-type: application/json' \
+-H "origin: $PROTO://$GS_LDAP$DOMAIN" \
+-H 'sec-fetch-site: same-origin' \
+-H 'sec-fetch-mode: cors' \
+-H 'sec-fetch-dest: empty' \
+-H "referer: $PROTO://$GS_LDAP$DOMAIN/" \
+-H 'accept-language: en-US,en;q=0.9,es;q=0.8' \
+-H 'cookie: language=en; welcomebanner_status=dismiss;  io=H1-9Vtxayp4pdpaQAABZ' \
+--data-binary '{"email":"a","password":"a"}' \
+--compressed \
+-D - ;
+
+#-o /dev/null \
+done
+
+echo "Finished"
