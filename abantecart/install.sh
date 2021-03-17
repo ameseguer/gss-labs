@@ -8,8 +8,8 @@ docker run -it --name certbot-abantecart\
 mkdir -p certs &&
 cp ./letsencrypt/etc/live/$HOSTNAME/fullchain.pem ./certs/fullchain.pem&&
 cp ./letsencrypt/etc/live/$HOSTNAME/privkey.pem ./certs/privkey.pem &&
-docker run  --network abantecart --name abantecart\
-  --restart always  -p 80:80 -p 443:443\
-  -e MYSQL_ROOT_PASSWORD=rootpwd \
-  -v "$PWD/certs/:/etc/ssl/apache2/" \
-  ameseguer/abantecart
+docker run  --network abantecart --name abantecart \
+  --restart always  -p 80:80 -p 443:443 \
+  -v "$PWD/certs":/etc/ssl/letsencrypt \
+  -v "$PWD/nginx.default":/etc/nginx/sites-available/default \
+  abantecart/abantecart
